@@ -23,6 +23,11 @@ $stack = (new Stack\Builder())
         'ImagineEasy\Stack\GitHubOrgAuth',
         [
             'organizations' => ['easybiblabs'],
+            // the following options are optional
+            'github_org_url' => 'https://api.github.com/user/orgs?access_token=' // e.g. for GitHub Enterprise
+            'http_client' => new GuzzleHttp\Client,
+            'session_orgs' => 'github.orgs', // defines the key used in the session
+
         ]
     )
 ;

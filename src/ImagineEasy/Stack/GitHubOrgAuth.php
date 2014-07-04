@@ -54,9 +54,7 @@ class GitHubOrgAuth implements HttpKernel\HttpKernelInterface
 
     private function extractOrganizations($accessToken)
     {
-        $client = new GuzzleHttp\Client();
-
-        $response = $client
+        $response = $this->getHttpClient()
             ->get($this->gitHubOrgUrl . $accessToken)
             ->json()
         ;
@@ -69,11 +67,41 @@ class GitHubOrgAuth implements HttpKernel\HttpKernelInterface
         return $userOrgs;
     }
 
+    /**
+     * @return GuzzleHttp\Client
+     */
+    private function getHttpClient()
+    {
+        if (null === $this->httpClient) {
+            $this->httpClient = new GuzzleHttp\Client;
+        }
+        return $this->httpClient;
+    }
+
+    /**
+     * Set options from {@link self::__construct()}.
+     *
+     * @param array $options
+     *
+     * @throws \InvalidArgumentException
+     */
     private function setUp(array $options)
     {
         if (empty($options['organizations'])) {
             throw new \InvalidArgumentException("Missing 'organizations.'");
         }
         $this->organizations = $options['organizations'];
+
+        if (!empty($options['github_org_url'])) {
+            $this->gitHubOrgUrl = $options['github_org_url'];
+        }
+
+        if (isset($options['http_client']) && $options['http_client'] instanceof GuzzleHttp\Client) {
+            $this->httpClient = $options['http_client'];
+        }
+
+        if (!empty($options['session_orgs'])) {
+            $this->sessionOrgs = $options['session_orgs'];
+        }
     }
 }
