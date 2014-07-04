@@ -9,6 +9,11 @@
             "email": "till@php.net"
         }
     ],
+    "autoload": {
+        "psr-0": {
+            "ImagineEasy\\Stack": "src/"
+        }
+    },
     "minimum-stability": "beta",
     "require": {
         "guzzlehttp/guzzle": "~4.0",
