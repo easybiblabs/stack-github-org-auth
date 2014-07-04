@@ -2,7 +2,7 @@
 namespace ImagineEasy\Stack;
 
 use GuzzleHttp;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\HttpKernel;
 use Symfony\Component\HttpFoundation;
 
 /**
@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation;
  *
  * @package ImagineEasy\Stack
  */
-class GitHubOrgAuth implements HttpKernelInterface
+class GitHubOrgAuth implements HttpKernel\HttpKernelInterface
 {
     private $gitHubOrgUrl = 'https://api.github.com/user/orgs?access_token=';
 
@@ -24,13 +24,13 @@ class GitHubOrgAuth implements HttpKernelInterface
 
     private $sessionToken = 'oauth.token';
 
-    public function __construct(HttpKernelInterface $app, array $options = [])
+    public function __construct(HttpKernel\HttpKernelInterface $app, array $options = [])
     {
         $this->app = $app;
         $this->setUp($options);
     }
 
-    public function handle(HttpFoundation\Request $request, $type = HttpKernelInterface::MASTER_REQUEST, $catch = true)
+    public function handle(HttpFoundation\Request $request, $type = HttpKernel\HttpKernelInterface::MASTER_REQUEST, $catch = true)
     {
         $token = $request->attributes->get($this->sessionToken);
         if (!$token) {
