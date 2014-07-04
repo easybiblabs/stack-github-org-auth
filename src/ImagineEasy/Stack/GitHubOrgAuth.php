@@ -45,11 +45,7 @@ class GitHubOrgAuth implements HttpKernel\HttpKernelInterface
 
         if (empty(array_intersect($this->organizations, $userOrganizations))) {
 
-            $response = new HttpFoundation\Response(
-                "Forbidden!",
-                HttpFoundation\Response::HTTP_FORBIDDEN
-            );
-            return $response;
+            throw new HttpKernel\Exception\AccessDeniedHttpException();
 
         }
 
