@@ -64,6 +64,10 @@ class GitHubOrgAuth implements HttpKernel\HttpKernelInterface
             $userOrgs[] = $userOrg['login'];
         }
 
+        if (empty($userOrgs)) {
+            throw new HttpKernel\Exception\LengthRequiredHttpException("The user has no organizations.");
+        }
+
         return $userOrgs;
     }
 
