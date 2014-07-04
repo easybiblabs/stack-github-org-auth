@@ -1,4 +1,4 @@
-# Authorize based on GitHub organization membership
+# Authenticate based on GitHub organization membership
 
 Requires this PR (for the time being): https://github.com/igorw/stack-oauth/pull/9
 
