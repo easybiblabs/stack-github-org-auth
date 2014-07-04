@@ -1,0 +1,19 @@
+{
+    "name": "easybib/stack-github-org-auth",
+    "description": "Authenticate a user based on memberships in a GitHub organization",
+    "keywords": ["authentication", "authorization", "github", "organization", "stack", "middleware"],
+    "license": "BSD-2-Clause",
+    "authors": [
+        {
+            "name": "Till Klampaeckel",
+            "email": "till@php.net"
+        }
+    ],
+    "minimum-stability": "beta",
+    "require": {
+        "guzzlehttp/guzzle": "~4.0",
+        "igorw/stack-oauth": "dev-t/oauth2",
+        "stack/builder": "~1.0.2",
+        "stack/session": "1.0.*@dev"
+    }
+}
