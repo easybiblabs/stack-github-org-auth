@@ -16,12 +16,29 @@ use Symfony\Component\HttpFoundation;
  */
 class GitHubOrgAuth implements HttpKernel\HttpKernelInterface
 {
+    /**
+     * @var string
+     */
     private $gitHubOrgUrl = 'https://api.github.com/user/orgs?access_token=';
 
+    /**
+     * @var GuzzleHttp\Client
+     */
+    private $httpClient;
+
+    /**
+     * @var array
+     */
     private $organizations;
 
+    /**
+     * @var string
+     */
     private $sessionOrgs = 'github.orgs';
 
+    /**
+     * @var string See {@link Igorw\Stack\Auth}
+     */
     private $sessionToken = 'oauth.token';
 
     public function __construct(HttpKernel\HttpKernelInterface $app, array $options = [])
@@ -44,14 +61,20 @@ class GitHubOrgAuth implements HttpKernel\HttpKernelInterface
         }
 
         if (empty(array_intersect($this->organizations, $userOrganizations))) {
-
             throw new HttpKernel\Exception\AccessDeniedHttpException();
-
         }
 
         return $this->app->handle($request, $type, $catch);
     }
 
+    /**
+     * Load the user's organizations from GitHub.
+     *
+     * @param string $accessToken
+     *
+     * @return array
+     * @throws HttpKernel\Exception\LengthRequiredHttpException
+     */
     private function extractOrganizations($accessToken)
     {
         $response = $this->getHttpClient()
