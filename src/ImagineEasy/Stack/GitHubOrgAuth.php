@@ -117,6 +117,12 @@ class GitHubOrgAuth implements HttpKernel\HttpKernelInterface
         if (empty($options['organizations'])) {
             throw new \InvalidArgumentException("Missing 'organizations.'");
         }
+
+        // be gentle with input
+        if (is_string($options['organizations'])) {
+            $options['organizations'] = explode(',', $options['organizations']);
+        }
+
         $this->organizations = $options['organizations'];
 
         if (!empty($options['github_org_url'])) {
