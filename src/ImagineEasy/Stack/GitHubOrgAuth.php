@@ -76,7 +76,7 @@ class GitHubOrgAuth implements HttpKernel\HttpKernelInterface
         
         if (null === $request->getSession()->get($this->sessionUser)) {
             $user = $this->extractUser($token->getAccessToken());
-            $request->getSession()->set($this->sessionuser, $user);
+            $request->getSession()->set($this->sessionUser, $user);
         }
 
         return $this->app->handle($request, $type, $catch);
