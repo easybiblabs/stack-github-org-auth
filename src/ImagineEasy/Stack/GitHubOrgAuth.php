@@ -24,7 +24,7 @@ class GitHubOrgAuth implements HttpKernel\HttpKernelInterface
     /**
      * @var string
      */
-    private $gitHubUSERUrl = 'https://api.github.com/user?access_token=';
+    private $gitHubUserUrl = 'https://api.github.com/user?access_token=';
 
     /**
      * @var GuzzleHttp\Client
