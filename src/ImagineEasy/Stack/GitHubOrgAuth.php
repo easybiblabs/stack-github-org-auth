@@ -124,7 +124,7 @@ class GitHubOrgAuth implements HttpKernel\HttpKernelInterface
             ->json()
         ;
 
-        if (false == is_object($response) || false ==  property_exists($response, 'login')) {
+        if (false == is_array($response) || false == array_key_exists('login', $response)) {
             throw new HttpKernel\Exception\LengthRequiredHttpException("The user has no user details.");
         }
 
