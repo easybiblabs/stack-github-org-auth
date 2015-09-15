@@ -20,6 +20,11 @@ class GitHubOrgAuth implements HttpKernel\HttpKernelInterface
      * @var string
      */
     private $gitHubOrgUrl = 'https://api.github.com/user/orgs?access_token=';
+    
+    /**
+     * @var string
+     */
+    private $gitHubUserUrl = 'https://api.github.com/user?access_token=';
 
     /**
      * @var GuzzleHttp\Client
@@ -35,6 +40,11 @@ class GitHubOrgAuth implements HttpKernel\HttpKernelInterface
      * @var string
      */
     private $sessionOrgs = 'github.orgs';
+    
+    /**
+     * @var string
+     */
+    private $sessionUser = 'github.user';
 
     /**
      * @var string See {@link Igorw\Stack\Auth}
@@ -62,6 +72,11 @@ class GitHubOrgAuth implements HttpKernel\HttpKernelInterface
 
         if (empty(array_intersect($this->organizations, $userOrganizations))) {
             throw new HttpKernel\Exception\AccessDeniedHttpException();
+        }
+        
+        if (null === $request->getSession()->get($this->sessionUser)) {
+            $user = $this->extractUser($token->getAccessToken());
+            $request->getSession()->set($this->sessionUser, $user);
         }
 
         return $this->app->handle($request, $type, $catch);
@@ -92,6 +107,28 @@ class GitHubOrgAuth implements HttpKernel\HttpKernelInterface
         }
 
         return $userOrgs;
+    }
+    
+    /**
+     * Load the user's details from GitHub.
+     *
+     * @param string $accessToken
+     *
+     * @return object
+     * @throws HttpKernel\Exception\LengthRequiredHttpException
+     */
+    private function extractUser($accessToken)
+    {
+        $response = $this->getHttpClient()
+            ->get($this->gitHubUserUrl . $accessToken)
+            ->json()
+        ;
+
+        if (false == is_object($response) || false ==  property_exists($response, 'login')) {
+            throw new HttpKernel\Exception\LengthRequiredHttpException("The user has no user details.");
+        }
+
+        return $response;
     }
 
     /**
