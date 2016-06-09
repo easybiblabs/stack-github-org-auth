@@ -2,7 +2,7 @@
     "name": "easybib/stack-github-org-auth",
     "description": "Authenticate a user based on memberships in a GitHub organization",
     "keywords": ["authentication", "authorization", "github", "organization", "stack", "middleware"],
-    "license": "BSD-2-Clause",
+    "license": "Apache-2.0",
     "authors": [
         {
             "name": "Till Klampaeckel",
